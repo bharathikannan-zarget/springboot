@@ -1,0 +1,72 @@
+location /ab {
+	location /ab/api {
+		resolver 127.0.0.1;
+		rewrite /ab/(.*) $1 break;
+		proxy_pass $scheme://$host:8080$request_uri;
+		proxy_redirect off;
+		proxy_set_header Host $host;
+		proxy_set_header X-Real-IP $remote_addr;
+		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+	}
+	location ~ /ab/$ {
+		resolver 127.0.0.1;
+#rewrite /ab/(.*) $1 break;
+		proxy_pass $scheme://$host:4200/ab/;
+		proxy_redirect off;
+		proxy_set_header Host $host;
+		proxy_set_header X-Real-IP $remote_addr;
+		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+	}
+
+	location /ab/ {
+		resolver 127.0.0.1;
+		rewrite /ab/(.*) $1 break;
+		proxy_pass $scheme://$host:4200$request_uri;
+		proxy_redirect off;
+		proxy_set_header Host $host;
+		proxy_set_header X-Real-IP $remote_addr;
+		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+	}
+}
+
+location /accounts {
+	resolver 127.0.0.1;
+	rewrite /accounts/(.*) $1 break;
+	proxy_pass $scheme://$host:8080$request_uri;
+	proxy_redirect off;
+	proxy_set_header Host $host;
+	proxy_set_header X-Real-IP $remote_addr;
+	proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+}
+
+
+
+location /mas {
+	location /mas/api {
+		resolver 127.0.0.1;
+		rewrite /mas/(.*) $1 break;
+		proxy_pass $scheme://$host:9090$request_uri;
+		proxy_redirect off;
+		proxy_set_header Host $host;
+		proxy_set_header X-Real-IP $remote_addr;
+		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+	}
+	location ~ /mas/$ {
+		resolver 127.0.0.1;
+		proxy_pass $scheme://$host:4300/mas/;
+		proxy_redirect off;
+		proxy_set_header Host $host;
+		proxy_set_header X-Real-IP $remote_addr;
+		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+	}
+
+	location /mas/ {
+		resolver 127.0.0.1;
+		rewrite /mas/(.*) $1 break;
+		proxy_pass $scheme://$host:4300$request_uri;
+		proxy_redirect off;
+		proxy_set_header Host $host;
+		proxy_set_header X-Real-IP $remote_addr;
+		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+	}
+}
